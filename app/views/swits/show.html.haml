@@ -1,0 +1,22 @@
+%row
+
+	%h1.small-10
+		= 'SWITTER'
+
+	.button= link_to 'New Swit', new_swit_path
+
+	%row
+		#notice= notice
+
+	%fieldset.row
+		.small-10
+			%h2= @swit.text
+
+		%p
+			%strong Poster:
+			= @swit.poster
+
+	.button-bar.row
+		%ul.button-group.round.small-10
+			%li.small.button.secondary= link_to 'Edit', edit_swit_path(@swit)
+			%li.small.button.secondary= link_to 'Back', swits_path

@@ -1,0 +1,17 @@
+%form.row
+
+= form_for([@swit, @swit.comments.build]) do |f|
+  
+  %fieldset
+    .field
+      = f.label :commenter
+    .xlarge-3.columns
+      = f.text_field :commenter
+  
+    .field
+      = f.label :body
+    .xlarge-5.columns
+      = f.text_area :body
+  
+    .button.radius
+      = f.submit

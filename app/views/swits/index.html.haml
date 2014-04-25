@@ -1,0 +1,46 @@
+%row
+
+  %h1.large-10.button.secondary
+    = 'SWITTER'
+
+  .button.medium
+    = link_to 'New Swit', new_swit_path
+
+  - @swits.order('created_at DESC').each do |swit|
+    %br
+    %fieldset.row
+      .small-10
+        %h3= swit.text
+      %em.small-5
+        = '@' + swit.poster
+      .small-5
+        -time = swit.created_at-DateTime.now
+        -time = time.to_i
+        -time*=-1
+        -if time<60
+          - age = pluralize(time, 'second') + " ago"
+        -elsif time<3600
+          - time = time/60
+          - age = pluralize(time, 'minute') + " ago"
+        -elsif time<86400
+          - time = time/3600
+          - age = pluralize(time, 'hour') + " ago"
+        -else
+          - age = time.to_s
+        = link_to age, swit
+        = '.'
+        = link_to 'Edit', edit_swit_path(swit)
+        = '.'
+        = link_to 'Destroy', swit, method: :delete, data: { confirm: 'Are you sure?' }
+        = '.'
+        = pluralize(Sweet.where("swit_id = " + swit.id.to_s, params[:id]).count, "Sweet")
+        ='.'
+        = pluralize(Sour.where("swit_id = " + swit.id.to_s, params[:id]).count, "Sour")
+
+        = form_for([swit, swit.sweets.build]) do |f|
+          .small-1.columns= f.text_field :voter, :value => 'user'
+          .button.tiny= f.submit
+        = form_for([swit, swit.sours.build]) do |f|
+          .small-1.columns= f.text_field :voter, :value => 'user'
+          .button.tiny.alert= f.submit
+        

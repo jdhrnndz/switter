@@ -1,0 +1,17 @@
+%form.row
+
+= form_for(@swit) do |f|
+  
+  %fieldset
+    .field
+      = f.label :text
+    .xlarge-3.columns
+      = f.text_area :text, :autofocus => true, :maxlength => 140
+
+    .field
+      = f.label :poster
+    .small-5.columns
+      = f.text_field :poster
+    
+    .button.radius.even
+      = f.submit
