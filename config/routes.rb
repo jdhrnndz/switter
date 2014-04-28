@@ -2,6 +2,7 @@ Switter::Application.routes.draw do
   resources :swits do
     resources :sweets
     resources :sours
+    resources :comments
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

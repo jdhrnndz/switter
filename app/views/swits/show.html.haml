@@ -1,7 +1,7 @@
-%row
-
-	%h1.small-10
-		= 'SWITTER'
+%div.row
+	%div.large-12.columns  
+		%div.panel
+			%h2= 'Switter'
 
 	.button= link_to 'New Swit', new_swit_path
 
@@ -16,7 +16,31 @@
 			%strong Poster:
 			= @swit.poster
 
-	.button-bar.row
-		%ul.button-group.round.small-10
-			%li.small.button.secondary= link_to 'Edit', edit_swit_path(@swit)
-			%li.small.button.secondary= link_to 'Back', swits_path
+		= link_to 'Edit', edit_swit_path(@swit)
+		= '.'
+		= link_to 'Back', swits_path
+		= '.'
+		= pluralize(Sweet.where("swit_id = " + @swit.id.to_s, params[:id]).count, "Sweet")
+		='.'
+		= pluralize(Sour.where("swit_id = " + @swit.id.to_s, params[:id]).count, "Sour")
+
+		= form_for([@swit, @swit.sweets.build]) do |f|
+			.small-1.columns= f.text_field :voter, :value => 'user'
+			.small-5.columns= f.submit
+		= form_for([@swit, @swit.sours.build]) do |f|
+			.small-1.columns= f.text_field :voter, :value => 'user'
+			.small-5.columns= f.submit
+
+		%fieldset.row
+			- @swit.comments.each do |com|
+				%em= "@" + com.commenter
+				= "said"
+				%br
+				= com.comment
+				%br
+				%br
+
+			= form_for([@swit, @swit.comments.build]) do |f|
+				= f.text_field :commenter, :value => 'user'
+				= f.text_area :comment, :placeholder => "Write a comment..."
+				= f.submit

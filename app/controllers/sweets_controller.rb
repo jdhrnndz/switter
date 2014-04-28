@@ -8,5 +8,4 @@ class SweetsController < ApplicationController
 	    def swit_params
 	    	params.require(:sweet).permit(:voter)
 	    end
-
 end

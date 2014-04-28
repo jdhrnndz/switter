@@ -13,3 +13,48 @@
 
  *= require_tree .
  */
+
+@font-face{
+	font-family: ChocolateDealer;
+	src: url('Chocolate Dealer.otf');
+}
+
+#banner{
+	background-color: #67E6AA;
+	background-image: -webkit-gradient(linear, 0 100%, 0 0, from(#4DAB7F ), to(white));
+	background-image: -webkit-linear-gradient(transparent, #4DAB7F );
+	background-image: -moz-linear-gradient(transparent, #4DAB7F );
+	background-image: -o-linear-gradient(transparent, #4DAB7F );
+	height:55px;
+	margin:0 auto 35px auto;
+	box-shadow: 
+	0 1px 0 #41916C,
+	0 2px 0 #3D8764,
+	0 3px 0 #39805F,
+	0 4px 0 #367859,
+	0 5px 0 #316E51,
+	0 6px 1px rgba(0,0,0,.1),
+	0 0 5px rgba(0,0,0,.1),
+	0 1px 3px rgba(0,0,0,.3),
+	0 3px 5px rgba(0,0,0,.2),
+	0 5px 10px rgba(0,0,0,.25),
+	0 10px 10px rgba(0,0,0,.2),
+	   0 20px 20px rgba(0,0,0,.15);
+	overflow:hidden;
+	border: none;
+}
+
+#brand{
+	margin: 0;
+	text-align: center;
+	margin-top: -25px;
+	font-family: ChocolateDealer;
+	font-size: 70px;
+	color:#7B3F00;
+	margin-right:10px;
+	margin-left:10px;
+}
+
+#image{
+	width: 100%;
+}
