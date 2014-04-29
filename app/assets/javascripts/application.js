@@ -17,3 +17,11 @@
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
+
+$(function(){
+	if(!($('#banner').visible())){
+		$('#banner').css("position", "fixed");
+	}
+	else
+		$('#banner').css("position", "");
+});

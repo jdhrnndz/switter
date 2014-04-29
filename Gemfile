@@ -47,5 +47,8 @@ end
 # Use Foundation
 gem 'foundation-rails'
 
+# Use glyphicons
+gem 'foundation-icons-sass-rails'
+
 # Use HAML
 gem 'haml'

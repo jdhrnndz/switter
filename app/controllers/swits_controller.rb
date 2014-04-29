@@ -28,10 +28,12 @@ class SwitsController < ApplicationController
 
     respond_to do |format|
       if @swit.save
-        format.html { redirect_to @swit, notice: 'Swit was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @swit }
+        @swits = Swit.all
+        format.html { render action: 'index'}
+        format.json { render action: 'index', status: :created, location: @swit }
       else
-        format.html { render action: 'new' }
+        @swits = Swit.all
+        format.html { render action: 'index' }
         format.json { render json: @swit.errors, status: :unprocessable_entity }
       end
     end
