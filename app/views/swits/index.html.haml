@@ -2,18 +2,21 @@
   %head
     %title= "Switter"
   
-  %body{:style => "background-color: #DAD8A7;background-image: url(\"" + image_url("Sprinkles.png") + "\");"}
+  %body{:style => "background-color: #DAD8A7;background-image: url(\"" + image_url("Sprinkles.png") + "\");background-attachment:fixed;"}
     .row
       .large-12.columns 
         .panel#banner
-          %h1#brand= 'switter'
-
+          %h1#brand
+            %brackets {
+            switter
+            %brackets }
     .row 
       .large-3.columns
         %row
           .panel
-            %a#image{:href => "#"}
-              %img{:src => image_url("negascott.gif")}
+            #profile-image
+              %a#image{:href => "#"}
+                %img{:src => image_url("negascott.gif")}
             %h5
               %a{:href => "#"} John Denielle
             .section-container.vertical-nav
@@ -36,12 +39,13 @@
       .large-9.columns
         .panel
           = form_for Swit.new do |f|
-            %textarea{:name => "swit[text]", :autofocus => true, :maxlength => 140, :style => "transparent: 20%; resize: none;", :placeholder => "Write something sweet :3", :rows => 2, :cols => 50, :maxlength => 140}
+            %textarea{:id=> "switinput", :name => "swit[text]", :autofocus => true, :maxlength => 140, :style => "transparent: 20%; resize: none;", :placeholder => "Write something sweet :3", :rows => 2, :cols => 50, :maxlength => 140}
             %input{:type => "text", :name => "swit[poster]", :style => "visibility: hidden; display: none;", :value => "jede"}
             %input{:type => "submit", :id => "postbutton", :value => "POST!"}
+            #counter.right.pull-up
 
         - @swits.order('created_at DESC').each do |swit|
-          .panel{:style => "border-top: solid 6px #4DAB7F;border-bottom: solid 2px #FF9E9D;"}
+          .panel{:style => "border-top: solid 6px #4DAB7F;border-bottom: solid 2px #D8D8D8;"}
             .row
               .right.small-1
                 %a{:href => edit_swit_path(swit)}
@@ -51,67 +55,71 @@
                 %div
               .large-2.columns.small-3
                 %img{:src => image_url('doodle-jump.jpg')}
-              .large-10.columns
-                %h3= swit.text
                 %a{:href => "#"}
                   %em
                     = '@' + swit.poster
-                %br
-                  -time = swit.created_at-DateTime.now
-                  -time = time.to_i
-                  -time*=-1
-                  -if time<60
-                    - age = pluralize(time, 'second') + " ago"
-                  -elsif time<3600
-                    - time = time/60
-                    - age = pluralize(time, 'minute') + " ago"
-                  -elsif time<86400
-                    - time = time/3600
-                    - age = pluralize(time, 'hour') + " ago"
-                  -elsif time<172800
-                    - age = "Yesterday at "
-                    - age += swit.created_at.strftime "%k:%M %p"
+              .large-10.columns
+                %h3= swit.text
+                -time = swit.created_at-DateTime.now
+                -time = time.to_i
+                -time*=-1
+                -if time<60
+                  - age = pluralize(time, 'second') + " ago"
+                -elsif time<3600
+                  - time = time/60
+                  - age = pluralize(time, 'minute') + " ago"
+                -elsif time<86400
+                  - time = time/3600
+                  - age = "about " + pluralize(time, 'hour') + " ago"
+                -elsif time<172800
+                  - age = "Yesterday at "
+                  - age += swit.created_at.strftime "%k:%M %p"
+                -else
+                  - age = swit.created_at.strftime "%B %-d, %Y"
+                = link_to age, swit
+                &#124;
+                = pluralize(Sweet.where("swit_id = " + swit.id.to_s, params[:id]).count, "Sweet")
+                &#124;
+                = pluralize(Sour.where("swit_id = " + swit.id.to_s, params[:id]).count, "Sour")
+
+                .panel{:style => "border:0;"}
+                  .row
+                  
+                    = form_for([swit, swit.sweets.build]) do |f|
+                      .ghost= f.text_field :voter, :value => 'user'
+                      %input.sweetbutton.small-6.columns{:type => "submit", :value => "SWEET"}
+                    = form_for([swit, swit.sours.build]) do |f|
+                      .ghost= f.text_field :voter, :value => 'user'
+                      %input.sourbutton.small-6.columns{:type => "submit", :value => "SOUR"}
+                .panel{:style => "margin-bottom: 0px;"}
+                  -comment_count = Comment.where("swit_id = " + swit.id.to_s, params[:id]).count
+                  -if comment_count > 0
+                    %h6
+                      %strong= "Comment".pluralize(comment_count)
+                      %i{:class => "fi-" + "comment".pluralize(comment_count)}
                   -else
-                    - age = swit.created_at.strftime "%B %-d, %Y"
-                  = link_to age, swit
-                  &#124;
-                  = pluralize(Sweet.where("swit_id = " + swit.id.to_s, params[:id]).count, "Sweet")
-                  &#124;
-                  = pluralize(Sour.where("swit_id = " + swit.id.to_s, params[:id]).count, "Sour")
+                    %h6 Be the first to comment!
+                  - swit.comments.each do |com|
+                    %em= "@" + com.commenter  
+                    = "said"
+                    %br
+                    = com.comment
+                    %br
+                    %br
 
-                  .panel
-                    .row
-                      = form_for([swit, swit.sweets.build]) do |f|
-                        .ghost= f.text_field :voter, :value => 'user'
-                        .small-10.columns= f.submit
-                      = form_for([swit, swit.sours.build]) do |f|
-                        .ghost= f.text_field :voter, :value => 'user'
-                        .small-10.columns= f.submit
-                    
-                  .panel
-                    -if Comment.where("swit_id = " + swit.id.to_s, params[:id]).count > 0
-                      %h6 Comments:
-                    -else
-                      %h6 Be the first to comment!
-                    - swit.comments.each do |com|
-                      %em= "@" + com.commenter
-                      = "said"
-                      %br
-                      = com.comment
-                      %br
-                      %br
+                  = form_for([swit, swit.comments.build]) do |f|
+                    %hr
+                    .ghost= f.text_field :commenter, :value => 'user'
+                    %textarea{:class => "commentinput", :name => "comment[comment]", :style => "resize: none;", :placeholder => "Write a comment..."}
+                    %input{:type => "submit", :class => "commentbutton", :value => "comment"}
 
-                    = form_for([swit, swit.comments.build]) do |f|
-                      = f.text_field :commenter, :value => 'user'
-                      = f.text_area :comment, :placeholder => "Write a comment..."
-                      = f.submit
-
-    %footer.row
-      .large-12.columns
-      %hr
+    %footer
       .row
         .large-5.columns
-          %p &copy; Copyright pending :P
+          %p
+            Powered by:
+            Foundation
+            %i.fi-foundation.large
         .large-7.columns
           %ul.inline-list.right
             %li
