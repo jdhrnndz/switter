@@ -31,10 +31,8 @@
                   %a{:href => "#"} Menu Opt 3
           .panel
             %h5 Door Tags for u nigga
-            %a{:href => "#"} {let it go}
-            %a{:href => "#"} {frozen}
-            %a{:href => "#"} {love is an open door tag}
-            %a{:href => "#"} {ba dum tss}
+            -"this is a post {this are door tags} {another} {and another} {last}".scan(/{(.*?)}/) do |f|
+              %a{href:"#"}= "{" + f[0] + "}"
 
       .large-9.columns
         .panel
@@ -59,7 +57,11 @@
                   %em
                     = '@' + swit.poster
               .large-10.columns
-                %h3= swit.text
+                %h3
+                  -text = swit.text
+                  -swit.text.scan(/{(.*?)}/) do |f|
+                    -text = text.gsub('{' + f[0] + '}', "<a href=\"" + f[0] + "\">{" + f[0] + "}</a>").html_safe
+                  =text
                 -time = swit.created_at-DateTime.now
                 -time = time.to_i
                 -time*=-1

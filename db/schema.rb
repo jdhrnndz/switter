@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140428022218) do
+ActiveRecord::Schema.define(version: 20140430061144) do
 
   create_table "comments", force: true do |t|
     t.text     "comment"
@@ -22,6 +22,15 @@ ActiveRecord::Schema.define(version: 20140428022218) do
   end
 
   add_index "comments", ["swit_id"], name: "index_comments_on_swit_id"
+
+  create_table "door_tags", force: true do |t|
+    t.text     "doortag"
+    t.integer  "swit_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "door_tags", ["swit_id"], name: "index_door_tags_on_swit_id"
 
   create_table "sours", force: true do |t|
     t.string   "voter"

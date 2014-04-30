@@ -29,7 +29,7 @@ class SwitsController < ApplicationController
     respond_to do |format|
       if @swit.save
         @swits = Swit.all
-        swit_params[:poster] = 'null'
+        /\{.*?\}/.match(swit_params[:poster])
         format.html { render action: 'index'}
         format.json { render action: 'index', status: :created, location: @swit }
       else
