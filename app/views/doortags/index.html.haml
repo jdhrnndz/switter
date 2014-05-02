@@ -1,8 +1,9 @@
 .large-9.columns
   .panel
-    =render 'form'
+    - header = "Results for \{" + params[:tag] + "\}"
+    %h3#results{:align => "center"}= header
 
-  - @swits.order('created_at DESC').each do |swit|
+  - @swits.each do |swit|
     .panel{:style => "border-top: solid 6px #4DAB7F;border-bottom: solid 2px #D8D8D8;"}
       .row
         .right.small-1

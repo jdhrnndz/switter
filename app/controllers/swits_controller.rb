@@ -5,11 +5,14 @@ class SwitsController < ApplicationController
   # GET /swits.json
   def index
     @swits = Swit.all
+    @swit = Swit.new
+    @recent = Swit.find_by_sql("Select text from swits where text like '%{%}%' order by created_at desc limit 100")
   end
 
   # GET /swits/1
   # GET /swits/1.json
   def show
+    @recent = Swit.find_by_sql("Select text from swits where text like '%{%}%' order by created_at desc limit 100")
   end
 
   # GET /swits/new
@@ -19,6 +22,8 @@ class SwitsController < ApplicationController
 
   # GET /swits/1/edit
   def edit
+    @recent = Swit.find_by_sql("Select text from swits where text like '%{%}%' order by created_at desc limit 100")
+    @swit = Swit.find(params[:id])
   end
 
   # POST /swits
@@ -28,12 +33,14 @@ class SwitsController < ApplicationController
 
     respond_to do |format|
       if @swit.save
-        @swits = Swit.all
-        /\{.*?\}/.match(swit_params[:poster])
+        @swits = Swit.all  
+        @swit = Swit.new
         format.html { render action: 'index'}
         format.json { render action: 'index', status: :created, location: @swit }
+        @recent = Swit.find_by_sql("Select text from swits where text like '%{%}%' order by created_at desc limit 100")
       else
         @swits = Swit.all
+        @swit = Swit.new
         format.html { render action: 'index' }
         format.json { render json: @swit.errors, status: :unprocessable_entity }
       end

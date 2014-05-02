@@ -1,8 +1,5 @@
-%h1 Editing swit
-
-= render 'form'
-
-.button-bar
-	%ul.button-group.round
-		%li.small.button.secondary= link_to 'Show', @swit |
-		%li.small.button.secondary= link_to 'Back', swits_path
+.large-9.columns
+	.panel
+		%h3#results{align:"center"} Editing Swit
+	.panel
+		= render 'form'
