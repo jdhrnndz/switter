@@ -1,5 +1,12 @@
 = form_for(@swit) do |f|
-    = f.text_area :text, :autofocus => true, :maxlength => 140, id:"switinput", :style => "transparent: 20%; resize: none;", :placeholder => "Write something sweet :3", :rows => 2, :cols => 50
-    = f.hidden_field :poster, value:@name
-    = f.submit id:"postbutton", value:"POST!"
-    #counter.right.pull-up
+	-if @swit.errors.any?
+		#error_explanation
+			%h2= pluralize(@swit.errors.count, "error") + "prohibited this user from being saved:"
+
+			- @swit.errors.full_messages.each do |msg|
+				%li= msg
+
+	= f.text_area :text, :autofocus => true, :maxlength => 140, id:"switinput", :style => "transparent: 20%; resize: none;", :placeholder => "Write something sweet :3", :rows => 2, :cols => 50
+	= f.hidden_field :poster, value:@name
+	= f.submit id:"postbutton", value:"POST!", disabled:"true"
+#counter.right.pull-up

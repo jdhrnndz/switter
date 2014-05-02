@@ -31,7 +31,7 @@ $(function(){
     $("#counter").html(remaining);
     if(remaining <= 10){
         $("#counter").css("color","#E60288");
-        if(remaining < 0)
+        if(remaining < 0 || remaining >= 140)
         	$("#postbutton").attr("disabled", "disabled");
     }
     else{
