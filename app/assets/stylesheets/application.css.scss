@@ -44,30 +44,29 @@ a:hover{
 	background-color: rgba(0, 0, 0, 0) !important;
 }
 
+.longsubmitbutton{
+	width: 180px;
+	font-size: 35px;
+	color: #316E51;
+	background-color: #67E6AA;
+	height:40px;
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.longsubmitbutton:hover{
+	color: #48A176;
+}
+
 #banner{
 	border-bottom-left-radius: 6px;
 	border-bottom-right-radius: 6px;
 	background-color: #67E6AA;
-	background-image: -webkit-gradient(linear, 0 100%, 0 0, from(#4DAB7F ), to(white));
-	background-image: -webkit-linear-gradient(transparent, #4DAB7F );
-	background-image: -moz-linear-gradient(transparent, #4DAB7F );
-	background-image: -o-linear-gradient(transparent, #4DAB7F );
+	border-top: solid 8px #48A176 !important;
 	height:55px;
 	margin:0 auto 35px auto;
-	box-shadow:
-	0 1px 0 #56BF8D,
-	0 1px 0 #41916C,
-	0 2px 0 #3D8764,
-	0 3px 0 #39805F,
-	0 4px 0 #367859,
-	0 5px 0 #316E51,
-	0 6px 1px rgba(0,0,0,.1),
-	0 0 5px rgba(0,0,0,.1),
-	0 1px 3px rgba(0,0,0,.3),
-	0 3px 5px rgba(0,0,0,.2),
-	0 5px 10px rgba(0,0,0,.25),
-	0 10px 10px rgba(0,0,0,.2),
-	0 20px 20px rgba(0,0,0,.15);
+
 	overflow:hidden;
 	border: none;
 }
@@ -131,18 +130,11 @@ textarea{
 	font-size: 35px;
 	color: #316E51;
 	background-color: #67E6AA;
-	background-image: -webkit-gradient(linear, 0 100%, 0 0, from(#4DAB7F ), to(white));
-	background-image: -webkit-linear-gradient(transparent, #4DAB7F );
-	background-image: -moz-linear-gradient(transparent, #4DAB7F );
-	background-image: -o-linear-gradient(transparent, #4DAB7F );
 	height:55px;
 }
 
 #postbutton:hover{
-	width: 130px;
-	font-size: 35px;
-	color: #67E6AA;
-	height:55px;
+	color: #48A176;
 }
 .sweetbutton, .sourbutton{
 	width: 100px;
@@ -153,29 +145,21 @@ textarea{
 .sweetbutton{
 	background-color: #E60288;
 	color: #6E0141;
-	background-image: -webkit-gradient(linear, 0 100%, 0 0, from(#AB0265 ), to(white));
-	background-image: -webkit-linear-gradient(transparent, #AB0265 );
-	background-image: -moz-linear-gradient(transparent, #AB0265 );
-	background-image: -o-linear-gradient(transparent, #AB0265 );
 	height:55px;
 }
 
 .sweetbutton:hover{
-	color: #E60288;
+	color: #A1015F;
 }
 
 .sourbutton{
 	background-color:#E4FC00;
 	color: #636E00;
-	background-image: -webkit-gradient(linear, 0 100%, 0 0, from(#ADBF00 ), to(white));
-	background-image: -webkit-linear-gradient(transparent, #ADBF00 );
-	background-image: -moz-linear-gradient(transparent, #ADBF00 );
-	background-image: -o-linear-gradient(transparent, #ADBF00 );
 	height:55px;
 }
 
 .sourbutton:hover{
-	color: #E4FC00;
+	color: #91A100;
 }
 
 input[type="submit"]{

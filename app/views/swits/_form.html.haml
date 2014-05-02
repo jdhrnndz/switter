@@ -1,5 +1,5 @@
 = form_for(@swit) do |f|
     = f.text_area :text, :autofocus => true, :maxlength => 140, id:"switinput", :style => "transparent: 20%; resize: none;", :placeholder => "Write something sweet :3", :rows => 2, :cols => 50
-    = f.hidden_field :poster, value:"jede"
+    = f.hidden_field :poster, value:@name
     = f.submit id:"postbutton", value:"POST!"
     #counter.right.pull-up

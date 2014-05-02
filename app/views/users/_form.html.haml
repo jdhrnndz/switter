@@ -1,0 +1,27 @@
+= form_for(@user) do |f|
+  -if @user.errors.any?
+    #error_explanation
+      %h2= pluralize(@user.errors.count, "error") + "prohibited this user from being saved:"
+
+      - @user.errors.full_messages.each do |msg|
+        %li= msg
+
+  - if !current_user
+    %h3{style:"text-align:center"} Sign up for a new Switter account :3 </h3>
+
+  - if current_user
+    .field
+      =f.hidden_field :username, placeholder: "New Username"
+  - else
+    .field
+      =f.text_field :username, placeholder: "New Username"
+  .field
+    =f.password_field :password, placeholder: "Password"
+  .field
+    =f.password_field :password_confirmation, placeholder: "Confirm Password"
+  
+  .actions
+    - if current_user
+      =f.submit class:"longsubmitbutton", value:"Save"
+    -else
+      =f.submit class:"longsubmitbutton", value:"sign up"

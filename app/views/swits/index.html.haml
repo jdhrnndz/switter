@@ -5,12 +5,13 @@
   - @swits.order('created_at DESC').each do |swit|
     .panel{:style => "border-top: solid 6px #4DAB7F;border-bottom: solid 2px #D8D8D8;"}
       .row
-        .right.small-1
-          %a{:href => edit_swit_path(swit)}
-            %i.fi-pencil 
-          &middot;
-          = link_to '<i class="fi-trash"></i>'.html_safe, swit, method: :delete, data: { confirm: 'Are you sure?' }
-          %div
+        -if swit.poster.to_s==@name.to_s
+          .right.small-1
+            %a{:href => edit_swit_path(swit)}
+              %i.fi-pencil 
+            &middot;
+            = link_to '<i class="fi-trash"></i>'.html_safe, swit, method: :delete, data: { confirm: 'Are you sure?' }
+            %div
         .large-2.columns.small-3
           %img{:src => image_url('doodle-jump.jpg')}
           %a{:href => "#"}
@@ -46,13 +47,19 @@
 
           .panel{:style => "border:0;"}
             .row
-            
-              = form_for([swit, swit.sweets.build]) do |f|
-                .ghost= f.text_field :voter, :value => 'user'
-                %input.sweetbutton.small-6.columns{:type => "submit", :value => "SWEET"}
-              = form_for([swit, swit.sours.build]) do |f|
-                .ghost= f.text_field :voter, :value => 'user'
-                %input.sourbutton.small-6.columns{:type => "submit", :value => "SOUR"}
+              -if Sweet.where("voter = ? and swit_id = ?", @name.to_s, swit.id.to_s).count < 1 && Sour.where("voter = ? and swit_id = ?", @name.to_s, swit.id.to_s).count < 1
+                = form_for([swit, swit.sweets.build]) do |f|
+                  .ghost= f.text_field :voter, :value => @name
+                  %input.sweetbutton.small-6.columns{:type => "submit", :value => "SWEET"}
+                = form_for([swit, swit.sours.build]) do |f|
+                  .ghost= f.text_field :voter, :value => @name
+                  %input.sourbutton.small-6.columns{:type => "submit", :value => "SOUR"}
+              -elsif Sweet.where("voter = ? and swit_id = ?", @name.to_s, swit.id.to_s).count >= 1
+                -@id = swit.id
+                .sweetbutton.small-12.columns= link_to "UNSWEET",swit_sweet_path(@id, @name), method: :delete
+              -elsif Sour.where("voter = ? and swit_id = ?", @name.to_s, swit.id.to_s).count >= 1
+                -@id = swit.id
+                .sourbutton.small-12.columns= link_to "UNSOUR",swit_sour_path(@id, @name), method: :delete
           .panel{:style => "margin-bottom: 0px;"}
             -comment_count = Comment.where("swit_id = " + swit.id.to_s, params[:id]).count
             -if comment_count > 0
@@ -63,6 +70,13 @@
               %h6 Be the first to comment!
             - swit.comments.each do |com|
               %br
+              -if com.commenter.to_s==@name.to_s
+                .right.small-1
+                  &middot;
+                  &middot;
+                  &middot;
+                  = link_to '<i class="fi-trash"></i>'.html_safe, swit_comment_path(swit, com), method: :delete, data: { confirm: 'Are you sure?' }
+                  %div
               %a
                 %em= "@" + com.commenter  
               = "said"
@@ -72,6 +86,6 @@
 
             = form_for([swit, swit.comments.build]) do |f|
               %hr
-              .ghost= f.text_field :commenter, :value => 'user'
+              .ghost= f.text_field :commenter, :value => @name
               %textarea{:class => "commentinput", :name => "comment[comment]", :style => "resize: none;", :placeholder => "Write a comment..."}
               %input{:type => "submit", :class => "commentbutton", :value => "comment"}

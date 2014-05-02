@@ -6,12 +6,14 @@ class SwitsController < ApplicationController
   def index
     @swits = Swit.all
     @swit = Swit.new
+    @name = User.find_by_id(session[:user_id]).username
     @recent = Swit.find_by_sql("Select text from swits where text like '%{%}%' order by created_at desc limit 100")
   end
 
   # GET /swits/1
   # GET /swits/1.json
   def show
+    @name = User.find_by_id(session[:user_id]).username
     @recent = Swit.find_by_sql("Select text from swits where text like '%{%}%' order by created_at desc limit 100")
   end
 
@@ -22,6 +24,7 @@ class SwitsController < ApplicationController
 
   # GET /swits/1/edit
   def edit
+    @name = User.find_by_id(session[:user_id]).username
     @recent = Swit.find_by_sql("Select text from swits where text like '%{%}%' order by created_at desc limit 100")
     @swit = Swit.find(params[:id])
   end
@@ -37,6 +40,7 @@ class SwitsController < ApplicationController
         @swit = Swit.new
         format.html { render action: 'index'}
         format.json { render action: 'index', status: :created, location: @swit }
+        @name = User.find_by_id(session[:user_id]).username
         @recent = Swit.find_by_sql("Select text from swits where text like '%{%}%' order by created_at desc limit 100")
       else
         @swits = Swit.all

@@ -1,17 +1,5 @@
-%form.row
-
-= form_for([@swit, @swit.comments.build]) do |f|
-  
-  %fieldset
-    .field
-      = f.label :commenter
-    .xlarge-3.columns
-      = f.text_field :commenter
-  
-    .field
-      = f.label :body
-    .xlarge-5.columns
-      = f.text_area :body
-  
-    .button.radius
-      = f.submit
+.panel
+  = form_tag swit_comment_path()
+  = hidden_field_tag :commenter, @name
+  = text_area_tag :text, @comment.comment, :autofocus => true, :style => "transparent: 20%; resize: none;", :placeholder => "Write a comment", :rows => 2, :cols => 50
+  %input#postbutton{type:"submit", value:"save"}

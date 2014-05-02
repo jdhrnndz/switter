@@ -20,47 +20,62 @@
             switter
             %brackets }
     
-    .row
-      .large-3.columns
-        .panel
-          #profile-image
-            %a#image{:href => "#"}
-              %img{:src => image_url("negascott.gif")}
-          %h5
-            %a{:href => "#"} John Denielle
-          .section-container.vertical-nav
-          %ul
-            %li
-              %section.section
-                .title
-                  =link_to "Home", swits_path
-            %li
-              %section.section
-                .title
-                  %a{:href => "#"} Change Password
-            %li
-              %section.section
-                .title
-                  %a{:href => "#"} Log out
-        .panel
-          %h5 Most Recent Door Tags for Ü
-          -doortags = []
-          -@recent.each do |f|
-            -f.text.scan(/{(.*?)}/) do |f|
-              -doortags << f[0]
-            
-          -doortags = doortags.uniq
+    - if current_user
+      .row
+        .large-3.columns
+          .panel
+            #profile-image
+              %a#image{:href => "#"}
+                %img{:src => image_url("negascott.gif")}
+            %h5
+              %a{:href => "#"}= @name
+            .section-container.vertical-nav
+            %ul
+              %li
+                %section.section
+                  .title
+                    =link_to "Home", swits_path
+              %li
+                %section.section
+                  .title
+                    %a{:href => edit_user_path(session[:user_id])} Change Password
+              %li
+                %section.section
+                  .title
+                    %a{:href => "/sessions/destroy"} Log out
+          .panel
+            %h5 Most Recent Door Tags for Ü
+            -doortags = []
+            -@recent.each do |f|
+              -f.text.scan(/{(.*?)}/) do |f|
+                -doortags << f[0]
+              
+            -doortags = doortags.uniq
 
-          -doortags.each do |dt|
-            %a{href:"/doortag/related?tag=" + dt}= "{" + dt + "}"
+            -doortags.each do |dt|
+              %a{href:"/doortag/related?tag=" + dt}= "{" + dt + "}"
 
-      = yield
-      = javascript_include_tag "application"
+        = yield
 
-  %footer
-    .row.pull-down
-      .large-5.columns
-        %p
-          Powered by:
-          Foundation
-          %i.fi-foundation.large
+      %footer
+        .row
+          .large-5.columns
+            %p
+              Powered by:
+              Foundation
+              %i.fi-foundation.large
+
+    - else
+      .row
+        .large-3.columns
+          .panel
+            %h3{style:"text-align:center;"} Use your existing account here
+            =form_tag sessions_create_path do
+              =text_field_tag :username, nil, placeholder: "username"
+              =password_field_tag :password, nil, placeholder: "password"
+              =submit_tag "Log In", class:"longsubmitbutton"
+        .large-9.columns
+          .panel
+            =render 'users/form'
+
+    = javascript_include_tag "application"

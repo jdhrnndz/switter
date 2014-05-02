@@ -6,12 +6,13 @@
   - @swits.each do |swit|
     .panel{:style => "border-top: solid 6px #4DAB7F;border-bottom: solid 2px #D8D8D8;"}
       .row
-        .right.small-1
-          %a{:href => edit_swit_path(swit)}
-            %i.fi-pencil 
-          &middot;
-          = link_to '<i class="fi-trash"></i>'.html_safe, swit, method: :delete, data: { confirm: 'Are you sure?' }
-          %div
+        -if swit.poster.to_s==@name.to_s
+          .right.small-1
+            %a{:href => edit_swit_path(swit)}
+              %i.fi-pencil 
+            &middot;
+            = link_to '<i class="fi-trash"></i>'.html_safe, swit, method: :delete, data: { confirm: 'Are you sure?' }
+            %div
         .large-2.columns.small-3
           %img{:src => image_url('doodle-jump.jpg')}
           %a{:href => "#"}
@@ -64,6 +65,13 @@
               %h6 Be the first to comment!
             - swit.comments.each do |com|
               %br
+              -if com.commenter.to_s==@name.to_s
+                .right.small-1
+                  %a{:href => edit_swit_comment_path(swit,com)}
+                    %i.fi-pencil 
+                  &middot;
+                  = link_to '<i class="fi-trash"></i>'.html_safe, swit_comment_path(swit, com), method: :delete, data: { confirm: 'Are you sure?' }
+                  %div
               %a
                 %em= "@" + com.commenter  
               = "said"
