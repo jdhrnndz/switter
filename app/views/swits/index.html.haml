@@ -56,10 +56,10 @@
                   %input.sourbutton.small-6.columns{:type => "submit", :value => "SOUR"}
               -elsif Sweet.where("voter = ? and swit_id = ?", @name.to_s, swit.id.to_s).count >= 1
                 -@id = swit.id
-                .sweetbutton.small-12.columns= link_to "UNSWEET",swit_sweet_path(@id, @name), method: :delete
+                .sweetbutton.small-12.columns= link_to "UNSWEET",swit_sweet_path(@id, @name), method: :delete, id:"pseudobuttons"
               -elsif Sour.where("voter = ? and swit_id = ?", @name.to_s, swit.id.to_s).count >= 1
                 -@id = swit.id
-                .sourbutton.small-12.columns= link_to "UNSOUR",swit_sour_path(@id, @name), method: :delete
+                .sourbutton.small-12.columns= link_to "UNSOUR",swit_sour_path(@id, @name), method: :delete, id:"pseudobuttons"
           .panel{:style => "margin-bottom: 0px;"}
             -comment_count = Comment.where("swit_id = " + swit.id.to_s, params[:id]).count
             -if comment_count > 0
